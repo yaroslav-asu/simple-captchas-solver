@@ -1,15 +1,9 @@
 from PIL import Image
 
-
-def is_black_pixel(r, g, b):
-    return (r + g + b) / 3 < 20
+from funcs import is_blue_pixel
 
 
-def is_blue_pixel(r, g, b):
-    return (r + g) / 2 < b
-
-
-class CaptchaImage:
+class Img:
     def __init__(self, path):
         self.image = Image.open(path)
         self.size = self.image.size
@@ -19,16 +13,17 @@ class CaptchaImage:
         self.image.close()
 
 
-class Captcha(CaptchaImage):
+class Captcha(Img):
     def __init__(self, reference_dir: str, title: str):
         super().__init__(f"{reference_dir}/{title}.png")
         self.title = title
-        self.reference = CaptchaImage(f"{reference_dir}/{title}.png")
+        self.reference = Img(f"{reference_dir}/{title}.png")
+        self.color = self.__color()
 
-    def color(self) -> str:
+    def __color(self) -> str:
         for y in range(self.size[1]):
             for x in range(self.size[0]):
-                if is_blue_pixel(*self.pixdata[x, y]):
+                if is_blue_pixel(self.pixdata[x, y]):
                     return "blue"
         return "black"
 
