@@ -9,19 +9,28 @@ def is_blue_pixel(r, g, b):
     return (r + g) / 2 < b
 
 
-class Captcha:
-    def __init__(self, original_path):
-        self.reference = Image.open(original_path)
-        self.size = self.reference.size
-        self.pixdata = self.reference.load()
+class CaptchaImage:
+    def __init__(self, path):
+        self.image = Image.open(path)
+        self.size = self.image.size
+        self.pixdata = self.image.load()
 
     def __del__(self):
-        self.reference.close()
+        self.image.close()
+
+
+class Captcha(CaptchaImage):
+    def __init__(self, reference_dir: str, title: str):
+        super().__init__(f"{reference_dir}/{title}.png")
+        self.title = title
+        self.reference = CaptchaImage(f"{reference_dir}/{title}.png")
 
     def color(self) -> str:
-        for y in range(self.image_size[1]):
-            for x in range(self.image_size[0]):
+        for y in range(self.size[1]):
+            for x in range(self.size[0]):
                 if is_blue_pixel(*self.pixdata[x, y]):
                     return "blue"
         return "black"
 
+    def save(self, path: str):
+        self.image.save(path)
