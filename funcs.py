@@ -1,11 +1,16 @@
-def is_noize_pixel(pixel) -> bool:
+def is_deep_black(pixel) -> bool:
     return sum(pixel) / 3 < 20
 
 
-def is_black_color(pixel) -> bool:
-    return sum(pixel) / 3 < 100
+def is_black_letter(pixel) -> bool:
+    return not is_deep_black(pixel) and sum(pixel) / 3 < 160
 
 
-def is_blue_pixel(pixel) -> bool:
+def is_deep_blue(pixel):
+    r, g, b = pixel
+    return r + g < b
+
+
+def is_blue_letter(pixel) -> bool:
     r, g, b = pixel
     return (r + g) / 2 < b

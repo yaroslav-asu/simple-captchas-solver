@@ -1,6 +1,6 @@
 from PIL import Image
 
-from funcs import is_blue_pixel
+from funcs import is_blue_letter
 
 
 class Img:
@@ -15,15 +15,15 @@ class Img:
 
 class Captcha(Img):
     def __init__(self, reference_dir: str, title: str):
-        super().__init__(f"{reference_dir}/{title}.png")
+        super().__init__(f"{reference_dir}/{title}")
         self.title = title
-        self.reference = Img(f"{reference_dir}/{title}.png")
+        self.reference = Img(f"{reference_dir}/{title}")
         self.color = self.__color()
 
     def __color(self) -> str:
         for y in range(self.size[1]):
             for x in range(self.size[0]):
-                if is_blue_pixel(self.pixdata[x, y]):
+                if is_blue_letter(self.pixdata[x, y]):
                     return "blue"
         return "black"
 
