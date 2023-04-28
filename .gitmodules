@@ -1,0 +1,3 @@
+[submodule "simple-captchas-solve-model"]
+	path = simple-captchas-solve-model
+	url = https://github.com/yaroslav-asu/simple-captchas-solve-model
