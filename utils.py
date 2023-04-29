@@ -1,3 +1,5 @@
+import os
+root_dir = os.path.dirname(os.path.abspath(__file__))
 def is_deep_black(pixel) -> bool:
     return sum(pixel) / 3 < 20
 

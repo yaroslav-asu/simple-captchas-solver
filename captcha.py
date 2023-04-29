@@ -4,8 +4,7 @@ from PIL import Image
 from os import listdir
 from os.path import join, isfile
 
-import utils
-from utils import is_blue_letter, is_black_letter, is_deep_black, is_deep_blue
+from utils import is_blue_letter, is_black_letter, is_deep_black, is_deep_blue, root_dir
 
 
 class Path:
@@ -53,7 +52,7 @@ class CaptchaMorpher:
         self._captcha = captcha
 
     def remove_background(self) -> Image:
-        gradient = Img("blank_gradient.png")
+        gradient = Img(os.path.join(root_dir, "blank_gradient.png"))
         for y in range(gradient.size[1]):
             for x in range(gradient.size[0]):
                 captcha_pixel = self._captcha.pixdata[x, y]

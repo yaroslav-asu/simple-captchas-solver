@@ -1,3 +1,5 @@
+import os.path
+
 import cv2
 import typing
 
@@ -8,6 +10,8 @@ from mltu.utils.text_utils import ctc_decoder
 
 from captcha import Captcha, Path
 import sys
+
+from utils import root_dir
 
 
 class ImageToWordModel(OnnxInferenceModel):
@@ -30,9 +34,9 @@ class ImageToWordModel(OnnxInferenceModel):
 class Solver:
     def __init__(self, captcha_path: str) -> None:
         self._captcha = Captcha(Path(captcha_path))
-
-        configs = BaseModelConfigs.load("simple-captchas-solve-model/configs.yaml")
-        self._model = ImageToWordModel(model_path=configs.model_path, char_list=configs.vocab)
+        configs = BaseModelConfigs.load(os.path.join(root_dir, "simple-captchas-solve-model/configs.yaml"))
+        self._model = ImageToWordModel(model_path=os.path.join(root_dir, "simple-captchas-solve-model"),
+                                       char_list=configs.vocab)
 
     def solve(self) -> str:
         self._captcha.morph()
@@ -40,5 +44,4 @@ class Solver:
 
 
 if __name__ == "__main__":
-    captcha_path = sys.argv[1]
-    print(Solver(captcha_path).solve())
+    print(Solver(sys.argv[1]).solve())
