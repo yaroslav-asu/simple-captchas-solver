@@ -1,5 +1,3 @@
-default_new_save_path = "morphs/"
-
 def is_deep_black(pixel) -> bool:
     return sum(pixel) / 3 < 20
 
